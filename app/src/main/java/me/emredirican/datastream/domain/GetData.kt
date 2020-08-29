@@ -70,6 +70,8 @@ sealed class DataResult(
 
   data class Loaded(override val pagedList: PagedList<Item>) : DataResult(pagedList)
 
-  data class Error(override val pagedList: PagedList<Item>,
-      override val error: Throwable) : DataResult(pagedList, error)
+  data class Error(
+      override val pagedList: PagedList<Item>,
+      override val error: Throwable
+  ) : DataResult(pagedList, error)
 }

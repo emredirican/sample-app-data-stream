@@ -1,18 +1,18 @@
 package me.emredirican.datastream.ui.main
 
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.Observable
+import io.reactivex.ObservableTransformer
+import io.reactivex.Scheduler
 import io.reactivex.subjects.BehaviorSubject
 import me.emredirican.datastream.domain.Action
-import me.emredirican.datastream.domain.ListHolder
+import me.emredirican.datastream.domain.DataResult
 import me.emredirican.datastream.domain.GetDataAction
 import me.emredirican.datastream.ui.Event
 import javax.xml.transform.Result
 
 class MainViewModel(
-    private val getData: ObservableTransformer<GetDataAction, ListHolder>,
+    private val getData: ObservableTransformer<GetDataAction, DataResult>,
     private val mainScheduler: Scheduler
 ) : ViewModel() {
 
@@ -36,7 +36,10 @@ class MainViewModel(
   }
 
   private fun reduceState(previous: ViewState, result: Result): ViewState {
-    return ViewState()
+    return when(result) {
+      is DataResult -> ViewState(result.pagedList)
+      else -> previous
+    }
   }
 
   private fun toAction(event: Event): Action {
