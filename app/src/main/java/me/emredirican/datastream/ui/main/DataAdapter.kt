@@ -1,5 +1,7 @@
 package me.emredirican.datastream.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import kotlinx.android.synthetic.main.item.view.*
 import me.emredirican.datastream.R
 import me.emredirican.datastream.entity.Item
 
+//TODO support loading views
 class DataAdapter : PagedListAdapter<Item, ItemViewHolder>(DIFF_CALLBACK) {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -40,6 +43,19 @@ class ItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder
 
   fun bind(item: Item) {
     containerView.tv_item_id.text = item.id
+    containerView.setOnClickListener {
+      //TODO move this to the fragment via a click event
+      launchInGoogleMaps(item)
+
+    }
+  }
+
+  private fun launchInGoogleMaps(item: Item) {
+    val gmmIntentUri: Uri = Uri.parse(
+        "geo:${item.geoLocation.latitude},${item.geoLocation.longitude}?z=12")
+    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    mapIntent.setPackage("com.google.android.apps.maps")
+    containerView.context.startActivity(mapIntent)
   }
 }
 
