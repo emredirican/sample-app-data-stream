@@ -8,8 +8,8 @@ import io.reactivex.subjects.BehaviorSubject
 import me.emredirican.datastream.domain.Action
 import me.emredirican.datastream.domain.DataResult
 import me.emredirican.datastream.domain.GetDataAction
+import me.emredirican.datastream.domain.Result
 import me.emredirican.datastream.ui.Event
-import javax.xml.transform.Result
 
 class MainViewModel(
     private val getData: ObservableTransformer<GetDataAction, DataResult>,

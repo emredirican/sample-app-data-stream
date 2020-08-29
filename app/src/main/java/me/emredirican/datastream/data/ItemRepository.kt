@@ -19,6 +19,7 @@ class ItemRepository(
   private val firstPageNum = 0
   private var currentReader: JsonReader? = null
   private var curItemPos = 0
+  private var readerClosed = false
 
   override val pageLoadingStates: Observable<PageLoadingState>
     get() = loadingStateRelay
@@ -31,6 +32,7 @@ class ItemRepository(
     val loadSize = params.requestedLoadSize
     currentReader = JsonReader(InputStreamReader(inputStream, "UTF-8"))
     currentReader!!.beginObject()
+    currentReader!!.nextName()
     currentReader!!.beginArray()
     val items = mutableListOf<Item>()
     curItemPos = 0
@@ -51,25 +53,31 @@ class ItemRepository(
   override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Item>) {
 
     loadingStateRelay.onNext(PageLoadingState.Next)
-
-    val startPos = curItemPos
-    val items = mutableListOf<Item>()
-    while (currentReader!!.hasNext() && curItemPos < startPos + params.requestedLoadSize) {
-      val item = gson.fromJson<Item>(currentReader, Item::class.java)
-      items.add(item)
-      curItemPos++
+    if(readerClosed){
+      callback.onResult(emptyList(), params.key + 1)
+      loadingStateRelay.onNext(PageLoadingState.Completed)
+    } else {
+      val startPos = curItemPos
+      val items = mutableListOf<Item>()
+      while (currentReader!!.hasNext() && curItemPos < startPos + params.requestedLoadSize) {
+        val item = gson.fromJson<Item>(currentReader, Item::class.java)
+        items.add(item)
+        curItemPos++
+      }
+      closeReaderIfNecessary()
+      callback.onResult(items, params.key + 1)
+      loadingStateRelay.onNext(PageLoadingState.Completed)
     }
-    closeReaderIfNecessary()
-    callback.onResult(items, params.key + 1)
-    loadingStateRelay.onNext(PageLoadingState.Completed)
+
+
   }
 
   private fun closeReaderIfNecessary() {
     currentReader?.apply {
       if(!hasNext()){
         endArray()
-        endObject()
         close()
+        readerClosed = true
       }
     }
   }

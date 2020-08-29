@@ -8,7 +8,6 @@ data class Item(
     val geoLocation: GeoLocation,
     val rating: Long,
     val labels: Set<String>,
-    @SerializedName("public_id")
     val id: String
 )
 
