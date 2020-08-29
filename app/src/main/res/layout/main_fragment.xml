@@ -7,12 +7,79 @@
   android:layout_height="match_parent"
   tools:context=".ui.main.MainFragment">
 
+  <TextView
+    android:id="@+id/tv_main_filter"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/filter"
+    android:textSize="16sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+    android:id="@+id/tv_main_filter_five"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:text="5"
+    app:layout_constraintEnd_toStartOf="@id/tv_main_filter_four"
+    app:layout_constraintBaseline_toBaselineOf="@+id/tv_main_filter"
+    app:layout_constraintStart_toEndOf="@+id/tv_main_filter" />
+
+  <TextView
+    android:id="@+id/tv_main_filter_four"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:text="4"
+    app:layout_constraintEnd_toStartOf="@id/tv_main_filter_three"
+    app:layout_constraintBaseline_toBaselineOf="@+id/tv_main_filter"
+    app:layout_constraintHorizontal_chainStyle="packed"
+    app:layout_constraintStart_toEndOf="@+id/tv_main_filter_five" />
+
+  <TextView
+    android:id="@+id/tv_main_filter_three"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:text="3"
+    app:layout_constraintEnd_toStartOf="@id/tv_main_filter_two"
+    app:layout_constraintBaseline_toBaselineOf="@+id/tv_main_filter"
+    app:layout_constraintHorizontal_chainStyle="packed"
+    app:layout_constraintStart_toEndOf="@+id/tv_main_filter_four" />
+
+  <TextView
+    android:id="@+id/tv_main_filter_two"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:text="2"
+    app:layout_constraintEnd_toStartOf="@id/tv_main_filter_one"
+    app:layout_constraintBaseline_toBaselineOf="@+id/tv_main_filter"
+    app:layout_constraintHorizontal_chainStyle="packed"
+    app:layout_constraintStart_toEndOf="@+id/tv_main_filter_three" />
+
+  <TextView
+    android:id="@+id/tv_main_filter_one"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:text="1"
+    app:layout_constraintBaseline_toBaselineOf="@+id/tv_main_filter"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_chainStyle="packed"
+    app:layout_constraintStart_toEndOf="@+id/tv_main_filter_two" />
+
   <androidx.recyclerview.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:id="@+id/rv_items"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="12dp"
     android:orientation="vertical"
-    />
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tv_main_filter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

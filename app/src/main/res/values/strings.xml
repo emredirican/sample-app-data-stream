@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">DataStream</string>
+  <string name="filter">Filter By Rating:</string>
 </resources>
