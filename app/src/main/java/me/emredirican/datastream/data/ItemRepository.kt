@@ -11,7 +11,8 @@ import java.io.InputStreamReader
 class ItemRepository(
     //TODO replace with an interface
     context: Context,
-    private val gson: Gson
+    private val gson: Gson,
+    private var ratingFilter: Int? = null
 ) : StatefulPagedKeyedDataSource<Int, Item>() {
 
   private val inputStream = context.assets.open("apidemo.json")
@@ -37,9 +38,7 @@ class ItemRepository(
     val items = mutableListOf<Item>()
     curItemPos = 0
     while (currentReader!!.hasNext() && curItemPos < loadSize) {
-      val item = gson.fromJson<Item>(currentReader, Item::class.java)
-      items.add(item)
-      curItemPos++
+      addItemAndMoveCursor(items)
     }
     closeReaderIfNecessary()
     callback.onResult(items, null, firstPageNum + 1)
@@ -60,9 +59,7 @@ class ItemRepository(
       val startPos = curItemPos
       val items = mutableListOf<Item>()
       while (currentReader!!.hasNext() && curItemPos < startPos + params.requestedLoadSize) {
-        val item = gson.fromJson<Item>(currentReader, Item::class.java)
-        items.add(item)
-        curItemPos++
+        addItemAndMoveCursor(items)
       }
       closeReaderIfNecessary()
       callback.onResult(items, params.key + 1)
@@ -70,6 +67,18 @@ class ItemRepository(
     }
 
 
+  }
+
+  private fun addItemAndMoveCursor(items: MutableList<Item>) {
+    val item = gson.fromJson<Item>(currentReader, Item::class.java)
+    if (ratingFilter == null) {
+      items.add(item)
+    } else {
+      if (item.rating == ratingFilter) {
+        items.add(item)
+      }
+    }
+    curItemPos++
   }
 
   private fun closeReaderIfNecessary() {

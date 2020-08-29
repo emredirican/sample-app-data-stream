@@ -7,12 +7,15 @@ import io.reactivex.Scheduler
 import io.reactivex.subjects.BehaviorSubject
 import me.emredirican.datastream.domain.Action
 import me.emredirican.datastream.domain.DataResult
+import me.emredirican.datastream.domain.FilterAction
+import me.emredirican.datastream.domain.FilterResult
 import me.emredirican.datastream.domain.GetDataAction
 import me.emredirican.datastream.domain.Result
 import me.emredirican.datastream.ui.Event
 
 class MainViewModel(
     private val getData: ObservableTransformer<GetDataAction, DataResult>,
+    private val filter: ObservableTransformer<FilterAction, FilterResult>,
     private val mainScheduler: Scheduler
 ) : ViewModel() {
 
@@ -21,7 +24,8 @@ class MainViewModel(
   private val submit = ObservableTransformer<Action, Result> { upstream ->
     upstream.publish { sharedAction ->
       Observable.merge(listOf(
-          sharedAction.ofType(GetDataAction::class.java).compose(getData)
+          sharedAction.ofType(GetDataAction::class.java).compose(getData),
+          sharedAction.ofType(FilterAction::class.java).compose(filter)
       ))
           .cast(Result::class.java)
     }
@@ -44,6 +48,11 @@ class MainViewModel(
   }
 
   private fun toAction(event: Event): Action {
-    return object : Action {}
+    return when (event) {
+      is FilterResults -> FilterAction(event.rating)
+      else -> object : Action {}
+    }
   }
 }
+
+data class FilterResults(val rating: Int) : Event

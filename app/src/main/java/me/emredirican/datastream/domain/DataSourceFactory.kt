@@ -9,9 +9,10 @@ import me.emredirican.datastream.entity.Item
 
 class DataSourceFactory(
     @ApplicationContext private val context: Context,
-    private val gson: Gson
-): StatefulPagedKeyedDataSource.Factory<Int, Item>() {
+    private val gson: Gson,
+    var ratingFilter: Int? = null
+) : StatefulPagedKeyedDataSource.Factory<Int, Item>() {
 
   override val creator: () -> StatefulPagedKeyedDataSource<Int, Item>
-    get() = { ItemRepository(context, gson) }
+    get() = { ItemRepository(context, gson, ratingFilter) }
 }

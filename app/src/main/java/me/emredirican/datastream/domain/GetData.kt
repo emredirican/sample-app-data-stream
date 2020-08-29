@@ -14,7 +14,7 @@ import me.emredirican.datastream.entity.Item
 import javax.inject.Inject
 
 class GetDataUseCase @Inject constructor(
-    dataSourceFactory: StatefulPagedKeyedDataSource.Factory<Int, Item>,
+    dataSourceFactory: DataSourceFactory,
     @IO fetchScheduler: Scheduler,
     @Main notifyScheduler: Scheduler
 ) : ObservableTransformer<GetDataAction, DataResult> {
@@ -50,7 +50,6 @@ class GetDataUseCase @Inject constructor(
       .autoConnect()
 
   override fun apply(upstream: Observable<GetDataAction>): ObservableSource<DataResult> {
-
     return upstream.flatMap { latestDataObservable }
   }
 

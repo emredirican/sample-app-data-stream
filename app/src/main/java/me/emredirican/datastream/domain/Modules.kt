@@ -10,8 +10,6 @@ import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.FragmentScoped
 import io.reactivex.ObservableTransformer
-import me.emredirican.datastream.data.StatefulPagedKeyedDataSource
-import me.emredirican.datastream.entity.Item
 
 @Module
 @InstallIn(FragmentComponent::class)
@@ -22,7 +20,7 @@ object DataSourceFactoryModule {
   fun provideDataSourceFactory(
       @ApplicationContext context: Context,
       gson: Gson
-  ): StatefulPagedKeyedDataSource.Factory<Int, Item> {
+  ): DataSourceFactory {
     return DataSourceFactory(context, gson)
   }
 }
@@ -35,4 +33,14 @@ abstract class GetDataModule {
   @FragmentScoped
   abstract fun provideGetDataUseCase(
       impl: GetDataUseCase): ObservableTransformer<GetDataAction, DataResult>
+}
+
+@Module
+@InstallIn(FragmentComponent::class)
+abstract class FilterModule {
+
+  @Binds
+  @FragmentScoped
+  abstract fun provideFilterUseCase(
+      impl: FilterUseCase): ObservableTransformer<FilterAction, FilterResult>
 }
