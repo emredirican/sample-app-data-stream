@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -42,11 +43,21 @@ class ItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder
     containerView), LayoutContainer {
 
   fun bind(item: Item) {
-    containerView.tv_item_id.text = item.id
-    containerView.setOnClickListener {
+    containerView.tv_item_browser.text = item.browser.platform
+
+    containerView.tv_item_location.setOnClickListener {
       //TODO move this to the fragment via a click event
       launchInGoogleMaps(item)
+    }
 
+    containerView.rb_item.rating = item.rating.toFloat()
+
+    containerView.fbl_item.removeAllViews()
+    item.labels.forEach { label ->
+      val textView = LayoutInflater.from(containerView.context).inflate(R.layout.label,
+          containerView.fbl_item, false) as TextView
+      textView.text = label
+      containerView.fbl_item.addView(textView)
     }
   }
 

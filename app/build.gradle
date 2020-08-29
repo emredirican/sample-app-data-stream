@@ -55,6 +55,7 @@ dependencies {
 
   implementation "androidx.multidex:multidex:$multidex_version"
 
+  implementation 'com.google.android:flexbox:2.0.1'
 
   testImplementation "com.google.dagger:hilt-android-testing:$dagger_version"
   kaptTest "com.google.dagger:hilt-android-compiler:$dagger_version"

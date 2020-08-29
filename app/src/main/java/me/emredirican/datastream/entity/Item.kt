@@ -6,7 +6,7 @@ data class Item(
     val browser: Browser,
     @SerializedName("geo")
     val geoLocation: GeoLocation,
-    val rating: Long,
+    val rating: Int,
     val labels: Set<String>,
     val id: String
 )
