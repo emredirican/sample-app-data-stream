@@ -6,13 +6,13 @@ import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.subjects.BehaviorSubject
 import me.emredirican.datastream.domain.Action
-import me.emredirican.datastream.domain.DataResult
+import me.emredirican.datastream.domain.ListHolder
 import me.emredirican.datastream.domain.GetDataAction
 import me.emredirican.datastream.ui.Event
 import javax.xml.transform.Result
 
 class MainViewModel(
-    private val getData: ObservableTransformer<GetDataAction, DataResult>,
+    private val getData: ObservableTransformer<GetDataAction, ListHolder>,
     private val mainScheduler: Scheduler
 ) : ViewModel() {
 
