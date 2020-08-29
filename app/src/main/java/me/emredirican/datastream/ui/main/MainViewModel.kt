@@ -27,7 +27,6 @@ class MainViewModel(
           sharedAction.ofType(GetDataAction::class.java).compose(getData),
           sharedAction.ofType(FilterAction::class.java).compose(filter)
       ))
-          .cast(Result::class.java)
     }
   }
 
