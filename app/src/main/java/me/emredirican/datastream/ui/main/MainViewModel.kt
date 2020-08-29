@@ -16,7 +16,7 @@ class MainViewModel(
     private val mainScheduler: Scheduler
 ) : ViewModel() {
 
-  private val statePublisher = BehaviorSubject.create<ViewState>()
+  private val statePublisher = BehaviorSubject.createDefault(ViewState(null))
 
   private val submit = ObservableTransformer<Action, Result> { upstream ->
     upstream.publish { sharedAction ->
@@ -29,6 +29,7 @@ class MainViewModel(
 
   fun state(eventObservable: Observable<Event>): Observable<ViewState> {
     return eventObservable.map(::toAction)
+        .startWith(GetDataAction)
         .compose(submit)
         .scan(statePublisher.value!!, ::reduceState)
         .observeOn(mainScheduler)
@@ -36,7 +37,7 @@ class MainViewModel(
   }
 
   private fun reduceState(previous: ViewState, result: Result): ViewState {
-    return when(result) {
+    return when (result) {
       is DataResult -> ViewState(result.pagedList)
       else -> previous
     }

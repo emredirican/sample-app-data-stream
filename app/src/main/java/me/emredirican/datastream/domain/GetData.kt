@@ -6,14 +6,17 @@ import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 import io.reactivex.Scheduler
+import me.emredirican.datastream.IO
+import me.emredirican.datastream.Main
 import me.emredirican.datastream.data.PageLoadingState
 import me.emredirican.datastream.data.StatefulPagedKeyedDataSource
 import me.emredirican.datastream.entity.Item
+import javax.inject.Inject
 
-class GetDataUseCase(
+class GetDataUseCase @Inject constructor(
     dataSourceFactory: StatefulPagedKeyedDataSource.Factory<Int, Item>,
-    fetchScheduler: Scheduler,
-    notifyScheduler: Scheduler
+    @IO fetchScheduler: Scheduler,
+    @Main notifyScheduler: Scheduler
 ) : ObservableTransformer<GetDataAction, DataResult> {
 
   private val config = PagedList.Config.Builder()

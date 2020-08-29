@@ -4,5 +4,5 @@ import androidx.paging.PagedList
 import me.emredirican.datastream.entity.Item
 
 data class ViewState(
-    val items: PagedList<Item>
+    val items: PagedList<Item>?
 )
