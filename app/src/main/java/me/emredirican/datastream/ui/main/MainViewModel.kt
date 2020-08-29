@@ -13,6 +13,7 @@ import me.emredirican.datastream.domain.GetDataAction
 import me.emredirican.datastream.domain.Result
 import me.emredirican.datastream.ui.Event
 
+//TODO error handling
 class MainViewModel(
     private val getData: ObservableTransformer<GetDataAction, DataResult>,
     private val filter: ObservableTransformer<FilterAction, FilterResult>,
